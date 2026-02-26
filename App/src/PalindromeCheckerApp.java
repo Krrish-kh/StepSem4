@@ -23,9 +23,7 @@ import java.util.Scanner;
 public class PalindromeCheckerApp {
     public static void main(String[] args){
         boolean ispalindrome = true;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Input Text: ");
-        String text = sc.nextLine();
+        String text = "madam";
         for (int i =0;i<text.length()/2;i++){
             if(text.charAt(i) != text.charAt(text.length()-1-i)){
                 ispalindrome = false;
