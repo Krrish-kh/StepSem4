@@ -1,61 +1,48 @@
 import java.util.*;
 
 public class PalindromeCheckerApp {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Input : ");
-        String input = sc.nextLine();
-        PalindromeStrategy strategy = new StackStrategy();
-        PalindromeChecker checker = new PalindromeChecker(strategy);
-
-        boolean result = checker.validate(input);
-
-        System.out.println("Palindrome : " + result);
-
-        sc.close();
-    }
-}
-
-interface PalindromeStrategy {
-    boolean check(String input);
-}
-
-class StackStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
-
-        Stack<Character> stack = new Stack<>();
-
-        for (char c : input.toCharArray()) {
-            stack.push(c);
+    public static boolean checkPalindromeTwoPointer(String str) {
+        int start = 0;
+        int end = str.length() - 1;
+        while (start < end) {
+            if (str.charAt(start) != str.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
         }
 
-        for (char c : input.toCharArray()) {
+        return true;
+    }
+    public static boolean checkPalindromeStack(String str) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : str.toCharArray()) {
+            stack.push(c);
+        }
+        for (char c : str.toCharArray()) {
             if (c != stack.pop()) {
                 return false;
             }
         }
-
         return true;
     }
-}
 
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
-
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast()) {
-                return false;
-            }
-        }
-        return true;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String input = sc.nextLine();
+        long start1 = System.nanoTime();
+        boolean result1 = checkPalindromeTwoPointer(input);
+        long end1 = System.nanoTime();
+        long start2 = System.nanoTime();
+        boolean result2 = checkPalindromeStack(input);
+        long end2 = System.nanoTime();
+        long time1 = end1 - start1;
+        long time2 = end2 - start2;
+        System.out.println("\nTwo Pointer Method: " + result1);
+        System.out.println("Execution Time: " + time1 + " ns");
+        System.out.println("\nStack Method: " + result2);
+        System.out.println("Execution Time: " + time2 + " ns");
+        sc.close();
     }
 }
